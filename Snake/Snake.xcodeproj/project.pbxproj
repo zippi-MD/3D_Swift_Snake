@@ -16,7 +16,6 @@
 		D459F68521AB653000B918D9 /* Enumarators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459F68421AB653000B918D9 /* Enumarators.swift */; };
 		D459F68721AB696C00B918D9 /* MatricesFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459F68621AB696C00B918D9 /* MatricesFunctions.swift */; };
 		D459F68921AB6A5A00B918D9 /* CoordinatesFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459F68821AB6A5A00B918D9 /* CoordinatesFunctions.swift */; };
-		D459F68B21ABC48B00B918D9 /* TimerFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459F68A21ABC48B00B918D9 /* TimerFunctions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +30,6 @@
 		D459F68421AB653000B918D9 /* Enumarators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumarators.swift; sourceTree = "<group>"; };
 		D459F68621AB696C00B918D9 /* MatricesFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatricesFunctions.swift; sourceTree = "<group>"; };
 		D459F68821AB6A5A00B918D9 /* CoordinatesFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesFunctions.swift; sourceTree = "<group>"; };
-		D459F68A21ABC48B00B918D9 /* TimerFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerFunctions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +72,6 @@
 				D459F68821AB6A5A00B918D9 /* CoordinatesFunctions.swift */,
 				D459F68621AB696C00B918D9 /* MatricesFunctions.swift */,
 				D459F68421AB653000B918D9 /* Enumarators.swift */,
-				D459F68A21ABC48B00B918D9 /* TimerFunctions.swift */,
 			);
 			path = Snake;
 			sourceTree = "<group>";
@@ -154,7 +151,6 @@
 				D459F68921AB6A5A00B918D9 /* CoordinatesFunctions.swift in Sources */,
 				D459F68521AB653000B918D9 /* Enumarators.swift in Sources */,
 				D459F68721AB696C00B918D9 /* MatricesFunctions.swift in Sources */,
-				D459F68B21ABC48B00B918D9 /* TimerFunctions.swift in Sources */,
 				D459F67121AB64EC00B918D9 /* AppDelegate.swift in Sources */,
 				D459F68321AB651500B918D9 /* SnakeFunctions.swift in Sources */,
 			);

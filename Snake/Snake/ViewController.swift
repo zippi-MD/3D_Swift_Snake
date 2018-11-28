@@ -11,11 +11,18 @@ import UIKit
 class ViewController: UIViewController {
     
     var snake = Snake()
+    
     var matrices = [[[Int]]]()
+    var oldMatrices = [[[Int]]]()
+    
     var food = Coordinate(matrix: .first, row: 0, column: 0)
     var counter = 0
     
+    var valuesToUpdate = [String]()
+    
     var timer: Timer? = nil
+    
+    var updateMatricesTimer: Timer? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +32,7 @@ class ViewController: UIViewController {
     @objc func sayHi(){
         counter += 1
         print("--------\(counter)-----------")
+        oldMatrices = matrices
         matrices = removeSnake(matrices: matrices, snake: snake)
         snake.move()
         
@@ -46,12 +54,20 @@ class ViewController: UIViewController {
             matrices = placeSnake(matrices: matrices, snake: snake)
             food = getFoodCoordinate(matricesWithSnakePlaced: matrices)
             matrices = placeFood(matrices: matrices, foodCoordinate: food)
+            compareMatrices(oldMatrices: oldMatrices, actualMatrices: matrices)
             displayMatrix(matrices.first!)
             return
         }
         
         matrices = placeSnake(matrices: matrices, snake: snake)
+        compareMatrices(oldMatrices: oldMatrices, actualMatrices: matrices)
         displayMatrix(matrices.first!)
+    }
+    
+    @objc func updateMatrices(){
+        if !valuesToUpdate.isEmpty{
+            print(valuesToUpdate.removeFirst())
+        }
     }
     
     func startGame(){
@@ -75,13 +91,19 @@ class ViewController: UIViewController {
         let sixthMatrix = generateLedMatrix(rows: 8, columns: 8)
         matrices.append(sixthMatrix)
         
+        oldMatrices = matrices
+        
         snake.body.removeAll(keepingCapacity: true)
         snake.createSnakeHead()
         
         matrices = placeSnake(matrices: matrices, snake: snake)
         food = getFoodCoordinate(matricesWithSnakePlaced: matrices)
         matrices = placeFood(matrices: matrices, foodCoordinate: food)
+        
+        compareMatrices(oldMatrices: oldMatrices, actualMatrices: matrices)
+        
         displayMatrices(matrices)
+        startMatrixUpdate()
         startTimer()
     }
 
@@ -118,6 +140,8 @@ class ViewController: UIViewController {
         snake.direction = .left
     }
     
+    
+    
     func startTimer(){
         if timer == nil{
             timer = Timer.scheduledTimer(
@@ -134,6 +158,29 @@ class ViewController: UIViewController {
         if timer != nil{
             timer?.invalidate()
             timer = nil
+        }
+    }
+    
+    func startMatrixUpdate(){
+        if updateMatricesTimer == nil{
+            updateMatricesTimer = Timer.scheduledTimer(
+                timeInterval: 0.1,
+                target: self,
+                selector: #selector(updateMatrices),
+                userInfo: nil,
+                repeats: true)
+        }
+    }
+    
+    func compareMatrices(oldMatrices: [[[Int]]], actualMatrices: [[[Int]]]){
+        for (matrixIndex, matrix) in actualMatrices.enumerated(){
+            for (rowIndex, row) in matrix.enumerated(){
+                if matrices[matrixIndex][rowIndex] != oldMatrices[matrixIndex][rowIndex]{
+                    let value = Int(row.compactMap(){String($0)}.joined(separator: ""), radix: 2) ?? 0
+                    valuesToUpdate.append("\(matrixIndex):\(rowIndex):\(value)")
+                }
+                
+            }
         }
     }
     

@@ -58,7 +58,7 @@ func getFoodCoordinate(matricesWithSnakePlaced matrices: [[[Int]]]) -> Coordinat
 func placeFood(matrices: [[[Int]]], foodCoordinate: Coordinate) -> [[[Int]]]{
     var newMatrices = matrices
     
-    newMatrices[foodCoordinate.matrix.rawValue][foodCoordinate.row][foodCoordinate.column] = 4
+    newMatrices[foodCoordinate.matrix.rawValue][foodCoordinate.row][foodCoordinate.column] = 1
     
     return newMatrices
 }

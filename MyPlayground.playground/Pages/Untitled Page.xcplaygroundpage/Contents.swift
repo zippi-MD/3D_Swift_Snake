@@ -73,7 +73,7 @@ func placeFood(_ matrices: [[[Int]]]) -> [[[Int]]]{
         column = Int.random(in: 0..<matrix[0].count)
     } while matrix[row][column] == 1
     
-    newMatrices[randomMatrixSelector][row][column] = 2
+    newMatrices[randomMatrixSelector][row][column] = 1
     
     return newMatrices
 }
@@ -441,6 +441,7 @@ matrices.append(fifthMatrix)
 let sixthMatrix = generateLedMatrix(rows: 8, columns: 8)
 matrices.append(sixthMatrix)
 
+var oldMatrices = matrices
 
 var snake = createSnake()
 
@@ -468,4 +469,15 @@ snake = move(snake)
 matrices = placeSnake(matrices: matrices, snake: snake)
 
 displayMatrices(matrices)
+
+for (matrixIndex, matrix) in matrices.enumerated(){
+    for (rowIndex, row) in matrix.enumerated(){
+        
+        if matrices[matrixIndex][rowIndex] != oldMatrices[matrixIndex][rowIndex]{
+            let value = Int(row.compactMap(){String($0)}.joined(separator: ""), radix: 2) ?? 0
+            print("\(matrixIndex):\(rowIndex):\(value)")
+        }
+        
+    }
+}
 
