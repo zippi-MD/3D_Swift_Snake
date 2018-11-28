@@ -15,3 +15,7 @@ enum Directions{
 enum Matrices: Int{
     case first, second, third, fourth, fifth, sixth
 }
+
+enum Sounds{
+    case lose, eat
+}

@@ -16,6 +16,8 @@
 		D459F68521AB653000B918D9 /* Enumarators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459F68421AB653000B918D9 /* Enumarators.swift */; };
 		D459F68721AB696C00B918D9 /* MatricesFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459F68621AB696C00B918D9 /* MatricesFunctions.swift */; };
 		D459F68921AB6A5A00B918D9 /* CoordinatesFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D459F68821AB6A5A00B918D9 /* CoordinatesFunctions.swift */; };
+		D45DEAB121AE77CC002133AD /* lose.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D45DEAB021AE77CC002133AD /* lose.mp3 */; };
+		D45DEAB321AE77D4002133AD /* eat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D45DEAB221AE77D4002133AD /* eat.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		D459F68421AB653000B918D9 /* Enumarators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enumarators.swift; sourceTree = "<group>"; };
 		D459F68621AB696C00B918D9 /* MatricesFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatricesFunctions.swift; sourceTree = "<group>"; };
 		D459F68821AB6A5A00B918D9 /* CoordinatesFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesFunctions.swift; sourceTree = "<group>"; };
+		D45DEAB021AE77CC002133AD /* lose.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lose.mp3; sourceTree = "<group>"; };
+		D45DEAB221AE77D4002133AD /* eat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = eat.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,8 @@
 				D459F68821AB6A5A00B918D9 /* CoordinatesFunctions.swift */,
 				D459F68621AB696C00B918D9 /* MatricesFunctions.swift */,
 				D459F68421AB653000B918D9 /* Enumarators.swift */,
+				D45DEAB021AE77CC002133AD /* lose.mp3 */,
+				D45DEAB221AE77D4002133AD /* eat.mp3 */,
 			);
 			path = Snake;
 			sourceTree = "<group>";
@@ -135,6 +141,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D459F67B21AB64EF00B918D9 /* LaunchScreen.storyboard in Resources */,
+				D45DEAB121AE77CC002133AD /* lose.mp3 in Resources */,
+				D45DEAB321AE77D4002133AD /* eat.mp3 in Resources */,
 				D459F67821AB64EF00B918D9 /* Assets.xcassets in Resources */,
 				D459F67621AB64EC00B918D9 /* Main.storyboard in Resources */,
 			);

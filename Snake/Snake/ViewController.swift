@@ -9,11 +9,13 @@
 import UIKit
 import CoreBluetooth
 import CoreMotion
+import AVFoundation
 
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     let notification = UINotificationFeedbackGenerator()
     let motionManager = CMMotionManager()
+    var player = AVAudioPlayer()
     
     var manager : CBCentralManager!
     var myBluetoothPeripheral : CBPeripheral!
@@ -65,6 +67,34 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         }
     }
     
+    func playSoundFor(_ sound: Sounds){
+        
+        var path: String?
+        
+        if sound == .eat{
+            path = Bundle.main.path(forResource: "eat", ofType : "mp3")
+        }
+        if sound == .lose{
+            path = Bundle.main.path(forResource: "lose", ofType : "mp3")
+        }
+        
+        if let soundPath = path{
+            let url = URL(fileURLWithPath : soundPath)
+            do {
+                player = try AVAudioPlayer(contentsOf: url)
+                player.play()
+                
+            } catch {
+                
+                print ("There is an issue with this code!")
+                
+            }
+        }
+        
+        
+        
+    }
+    
     @objc func sayHi(){
         oldMatrices = matrices
         matrices = removeSnake(matrices: matrices, snake: snake)
@@ -73,8 +103,9 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         if snake.biteHimself(){
             print("Se mordió")
             didLoseGame = true
+            playSoundFor(.lose)
             writeValue()
-            let ac = UIAlertController(title: "Perdiste", message: "Volver a jugar?", preferredStyle: .alert)
+            let ac = UIAlertController(title: "Perdiste", message: "¿Volver a jugar?", preferredStyle: .alert)
             let accept = UIAlertAction(title: "Si!", style: .default){
                 [unowned self] _ in
                 self.startGame()
@@ -87,6 +118,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         if didSnakeAte(snakeHead: snake.body.first!, food: food){
             snake.grow()
+            playSoundFor(.eat)
             matrices = placeSnake(matrices: matrices, snake: snake)
             food = getFoodCoordinate(matricesWithSnakePlaced: matrices)
             matrices = placeFood(matrices: matrices, foodCoordinate: food)
