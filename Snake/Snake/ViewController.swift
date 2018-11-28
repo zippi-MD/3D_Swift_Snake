@@ -8,10 +8,12 @@
 
 import UIKit
 import CoreBluetooth
+import CoreMotion
 
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     let notification = UINotificationFeedbackGenerator()
+    let motionManager = CMMotionManager()
     
     var manager : CBCentralManager!
     var myBluetoothPeripheral : CBPeripheral!
@@ -27,7 +29,6 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     var oldMatrices = [[[Int]]]()
     
     var food = Coordinate(matrix: .first, row: 0, column: 0)
-    var counter = 0
     
     var valuesToUpdate = [String]()
     
@@ -38,12 +39,33 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     override func viewDidLoad() {
         super.viewDidLoad()
         manager = CBCentralManager(delegate: self, queue: nil)
+        startGyroData()
         startGame()
     }
     
+    func startGyroData(){
+        motionManager.accelerometerUpdateInterval = 0.1
+        
+        motionManager.startAccelerometerUpdates(to: OperationQueue.current!){
+            [unowned self] (data, error) in
+            if let gyroData = data{
+                if(gyroData.acceleration.x * 10 > 4){
+                    self.snakeDown(self)
+                }
+                if(gyroData.acceleration.x * 10 < -4){
+                    self.snakeUp(self)
+                }
+                if(gyroData.acceleration.y * 10 > 4){
+                    self.snakeRight(self)
+                }
+                if(gyroData.acceleration.y * 10 < -4){
+                    self.snakeLeft(self)
+                }
+            }
+        }
+    }
+    
     @objc func sayHi(){
-        counter += 1
-        print("--------\(counter)-----------")
         oldMatrices = matrices
         matrices = removeSnake(matrices: matrices, snake: snake)
         snake.move()
@@ -319,7 +341,6 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             
             else{
                 let info = valuesToUpdate.removeFirst()
-                print(info)
                 dataToSend = info.data(using: String.Encoding.utf8)!
                 myBluetoothPeripheral.writeValue(dataToSend, for: myCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
             }
