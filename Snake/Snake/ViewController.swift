@@ -11,11 +11,15 @@ import CoreBluetooth
 
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     
+    let notification = UINotificationFeedbackGenerator()
+    
     var manager : CBCentralManager!
     var myBluetoothPeripheral : CBPeripheral!
     var myCharacteristic : CBCharacteristic!
     
     var isMyPeripheralConected = false
+    var didStartedNewGame = false
+    var didLoseGame = false
     
     var snake = Snake()
     
@@ -46,6 +50,8 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         if snake.biteHimself(){
             print("Se mordió")
+            didLoseGame = true
+            writeValue()
             let ac = UIAlertController(title: "Perdiste", message: "Volver a jugar?", preferredStyle: .alert)
             let accept = UIAlertAction(title: "Si!", style: .default){
                 [unowned self] _ in
@@ -63,13 +69,11 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             food = getFoodCoordinate(matricesWithSnakePlaced: matrices)
             matrices = placeFood(matrices: matrices, foodCoordinate: food)
             compareMatrices(oldMatrices: oldMatrices, actualMatrices: matrices)
-            displayMatrix(matrices.first!)
             return
         }
         
         matrices = placeSnake(matrices: matrices, snake: snake)
         compareMatrices(oldMatrices: oldMatrices, actualMatrices: matrices)
-        displayMatrix(matrices.first!)
     }
     
     @objc func updateMatrices(){
@@ -79,6 +83,9 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     }
     
     func startGame(){
+        
+        didStartedNewGame = true
+        
         matrices.removeAll(keepingCapacity: true)
         
         let firstMatrix = generateLedMatrix(rows: 8, columns: 8)
@@ -110,7 +117,6 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         compareMatrices(oldMatrices: oldMatrices, actualMatrices: matrices)
         
-        displayMatrices(matrices)
         startTimer()
     }
 
@@ -121,6 +127,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             return
         }
         snake.direction = .down
+        notification.notificationOccurred(.success)
     }
     
     @IBAction func snakeUp(_ sender: Any) {
@@ -129,6 +136,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             return
         }
         snake.direction = .up
+        notification.notificationOccurred(.success)
     }
     
     @IBAction func snakeRight(_ sender: Any) {
@@ -137,6 +145,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             return
         }
         snake.direction = .right
+        notification.notificationOccurred(.success)
     }
     
     @IBAction func snakeLeft(_ sender: Any) {
@@ -145,6 +154,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             return
         }
         snake.direction = .left
+        notification.notificationOccurred(.success)
     }
     
     
@@ -291,12 +301,28 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     func writeValue() {
         
         if isMyPeripheralConected {
+            var dataToSend: Data
             
-            let info = valuesToUpdate.removeFirst()
-            print(info)
-            let dataToSend: Data = info.data(using: String.Encoding.utf8)!
+            if didStartedNewGame{
+                dataToSend = "8:0:0\n".data(using: String.Encoding.utf8)!
+                didStartedNewGame.toggle()
+                myBluetoothPeripheral.writeValue(dataToSend, for: myCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
+                return
+            }
             
-            myBluetoothPeripheral.writeValue(dataToSend, for: myCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
+            if didLoseGame{
+                dataToSend = "9:0:0\n".data(using: String.Encoding.utf8)!
+                didLoseGame.toggle()
+                myBluetoothPeripheral.writeValue(dataToSend, for: myCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
+                return
+            }
+            
+            else{
+                let info = valuesToUpdate.removeFirst()
+                print(info)
+                dataToSend = info.data(using: String.Encoding.utf8)!
+                myBluetoothPeripheral.writeValue(dataToSend, for: myCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
+            }
         } else {
             print("Not connected")
         }
