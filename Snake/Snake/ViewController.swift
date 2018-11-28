@@ -7,8 +7,15 @@
 //
 
 import UIKit
+import CoreBluetooth
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
+    
+    var manager : CBCentralManager!
+    var myBluetoothPeripheral : CBPeripheral!
+    var myCharacteristic : CBCharacteristic!
+    
+    var isMyPeripheralConected = false
     
     var snake = Snake()
     
@@ -26,6 +33,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        manager = CBCentralManager(delegate: self, queue: nil)
         startGame()
     }
     
@@ -66,7 +74,7 @@ class ViewController: UIViewController {
     
     @objc func updateMatrices(){
         if !valuesToUpdate.isEmpty{
-            print(valuesToUpdate.removeFirst())
+            writeValue()
         }
     }
     
@@ -103,7 +111,6 @@ class ViewController: UIViewController {
         compareMatrices(oldMatrices: oldMatrices, actualMatrices: matrices)
         
         displayMatrices(matrices)
-        startMatrixUpdate()
         startTimer()
     }
 
@@ -145,7 +152,7 @@ class ViewController: UIViewController {
     func startTimer(){
         if timer == nil{
             timer = Timer.scheduledTimer(
-                                            timeInterval: 1.0,
+                                            timeInterval: 0.5,
                                             target: self,
                                             selector: #selector(sayHi),
                                             userInfo: nil,
@@ -177,12 +184,125 @@ class ViewController: UIViewController {
             for (rowIndex, row) in matrix.enumerated(){
                 if matrices[matrixIndex][rowIndex] != oldMatrices[matrixIndex][rowIndex]{
                     let value = Int(row.compactMap(){String($0)}.joined(separator: ""), radix: 2) ?? 0
-                    valuesToUpdate.append("\(matrixIndex):\(rowIndex):\(value)")
+                    valuesToUpdate.append("\(matrixIndex):\(rowIndex):\(value)\n")
                 }
                 
             }
         }
     }
+    
+//    Bluetooth
+    
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        
+        var msg = ""
+        
+        switch central.state {
+            
+        case .poweredOff:
+            msg = "Bluetooth is Off"
+        case .poweredOn:
+            msg = "Bluetooth is On"
+            manager.scanForPeripherals(withServices: nil, options: nil)
+        case .unsupported:
+            msg = "Not Supported"
+        default:
+            msg = "😔"
+            
+        }
+        
+        print("STATE: " + msg)
+        
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        
+        print("Name: \(peripheral.name)")
+        
+        if peripheral.name == "BT05" {
+            
+            self.myBluetoothPeripheral = peripheral
+            self.myBluetoothPeripheral.delegate = self
+            
+            manager.stopScan()
+            manager.connect(myBluetoothPeripheral, options: nil)
+            
+        }
+    }
+    
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        isMyPeripheralConected = true
+        print("Conectado correctamente con: \(peripheral.name ?? "no tiene nombre...")")
+        peripheral.delegate = self
+        peripheral.discoverServices(nil)
+        
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        isMyPeripheralConected = false
+        print("Se perdió la conexión con el dispositivo")
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        
+        if let servicePeripheral = peripheral.services as [CBService]! {
+            
+            for service in servicePeripheral {
+                
+                peripheral.discoverCharacteristics(nil, for: service)
+                
+            }
+            
+        }
+    }
+    
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        
+        if let characterArray = service.characteristics as [CBCharacteristic]! {
+            
+            for cc in characterArray {
+                
+                if(cc.uuid.uuidString == "FFE1") {
+                    
+                    myCharacteristic = cc
+                    
+                    peripheral.readValue(for: cc)
+                }
+                
+            }
+        }
+        
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        
+        if (characteristic.uuid.uuidString == "FFE1") {
+            
+            let readValue = characteristic.value
+            
+            let value = (readValue! as NSData).bytes.bindMemory(to: Int.self, capacity: readValue!.count).pointee
+            
+            print (value)
+            startMatrixUpdate()
+        }
+    }
+    
+    func writeValue() {
+        
+        if isMyPeripheralConected {
+            
+            let info = valuesToUpdate.removeFirst()
+            print(info)
+            let dataToSend: Data = info.data(using: String.Encoding.utf8)!
+            
+            myBluetoothPeripheral.writeValue(dataToSend, for: myCharacteristic, type: CBCharacteristicWriteType.withoutResponse)
+        } else {
+            print("Not connected")
+        }
+    }
+    
+    
     
 }
 
