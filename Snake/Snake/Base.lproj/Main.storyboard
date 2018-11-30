@@ -45,6 +45,14 @@
                                             <action selector="snakeDown:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Nej-9a-NuZ"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kpt-XV-fft">
+                                        <rect key="frame" x="0.0" y="75" width="120" height="120"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Button" image="arrow-left"/>
+                                        <connections>
+                                            <action selector="snakeLeft:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IZk-vK-9i5"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -52,14 +60,6 @@
                                     <constraint firstAttribute="height" constant="270" id="YEM-N3-eQm"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kpt-XV-fft">
-                                <rect key="frame" x="377" y="127" width="120" height="120"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button" image="arrow-left"/>
-                                <connections>
-                                    <action selector="snakeLeft:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IZk-vK-9i5"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Snake" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UI1-3m-4BU">
                                 <rect key="frame" x="20" y="20" width="165" height="66"/>
                                 <constraints>
