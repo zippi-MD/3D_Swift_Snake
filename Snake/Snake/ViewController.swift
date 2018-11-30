@@ -13,7 +13,7 @@ import AVFoundation
 
 class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
     
-    let notification = UINotificationFeedbackGenerator()
+    let impact = UIImpactFeedbackGenerator()
     let motionManager = CMMotionManager()
     var player = AVAudioPlayer()
     
@@ -24,6 +24,9 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     var isMyPeripheralConected = false
     var didStartedNewGame = false
     var didLoseGame = false
+    
+    @IBOutlet var snakeSizeLabel: UILabel!
+    @IBOutlet var matrixPositionLabel: UILabel!
     
     var snake = Snake()
     
@@ -100,6 +103,8 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         matrices = removeSnake(matrices: matrices, snake: snake)
         snake.move()
         
+        matrixPositionLabel.text = "Posición: \(snake.body.first!.matrix.rawValue + 1)"
+        
         if snake.biteHimself(){
             print("Se mordió")
             didLoseGame = true
@@ -118,6 +123,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         if didSnakeAte(snakeHead: snake.body.first!, food: food){
             snake.grow()
+            snakeSizeLabel.text = "Tamaño: \(snake.body.count)"
             playSoundFor(.eat)
             matrices = placeSnake(matrices: matrices, snake: snake)
             food = getFoodCoordinate(matricesWithSnakePlaced: matrices)
@@ -139,6 +145,9 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     func startGame(){
         
         didStartedNewGame = true
+        
+        snakeSizeLabel.text = "Tamaño: 1"
+        matrixPositionLabel.text = "Posición: 1"
         
         matrices.removeAll(keepingCapacity: true)
         
@@ -181,7 +190,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             return
         }
         snake.direction = .down
-        notification.notificationOccurred(.success)
+        impact.impactOccurred()
     }
     
     @IBAction func snakeUp(_ sender: Any) {
@@ -190,7 +199,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             return
         }
         snake.direction = .up
-        notification.notificationOccurred(.success)
+        impact.impactOccurred()
     }
     
     @IBAction func snakeRight(_ sender: Any) {
@@ -199,7 +208,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             return
         }
         snake.direction = .right
-        notification.notificationOccurred(.success)
+        impact.impactOccurred()
     }
     
     @IBAction func snakeLeft(_ sender: Any) {
@@ -208,7 +217,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             return
         }
         snake.direction = .left
-        notification.notificationOccurred(.success)
+        impact.impactOccurred()
     }
     
     
