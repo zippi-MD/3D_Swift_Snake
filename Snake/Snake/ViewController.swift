@@ -27,6 +27,8 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     
     @IBOutlet var snakeSizeLabel: UILabel!
     @IBOutlet var matrixPositionLabel: UILabel!
+    @IBOutlet var speedLabel: UILabel!
+    @IBOutlet var stepper: UIStepper!
     
     var snake = Snake()
     
@@ -145,9 +147,11 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     func startGame(){
         
         didStartedNewGame = true
+        stepper.value = 0.5
         
         snakeSizeLabel.text = "Tamaño: 1"
         matrixPositionLabel.text = "Posición: 1"
+        speedLabel.text = "Velocidad: 0.5"
         
         matrices.removeAll(keepingCapacity: true)
         
@@ -182,6 +186,13 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         
         startTimer()
     }
+    
+    @IBAction func stepperValueChanged(_ sender: UIStepper) {
+        speedLabel.text = "Velocidad: \(String(format: "%.1f", sender.value))"
+        stopTimer()
+        startTimer()
+    }
+    
 
     
     @IBAction func snakeDown(_ sender: Any) {
@@ -225,7 +236,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
     func startTimer(){
         if timer == nil{
             timer = Timer.scheduledTimer(
-                                            timeInterval: 0.5,
+                                            timeInterval: stepper.value,
                                             target: self,
                                             selector: #selector(sayHi),
                                             userInfo: nil,

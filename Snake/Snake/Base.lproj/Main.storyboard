@@ -90,6 +90,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Velocidad: 0.5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YKF-hD-H9L">
+                                <rect key="frame" x="20" y="257" width="259" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="c45-ht-Me1"/>
+                                    <constraint firstAttribute="width" constant="259" id="cxt-aU-ABU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" continuous="NO" autorepeat="NO" value="0.5" minimumValue="0.20000000000000001" maximumValue="2" stepValue="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="ogl-B5-bqS">
+                                <rect key="frame" x="55" y="312" width="94" height="29"/>
+                                <connections>
+                                    <action selector="stepperValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="ONM-Pz-aSX"/>
+                                </connections>
+                            </stepper>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -99,15 +115,21 @@
                             <constraint firstItem="Rer-Zy-PTT" firstAttribute="top" secondItem="VqO-VZ-qZw" secondAttribute="bottom" constant="26" id="GV2-ZG-2X5"/>
                             <constraint firstItem="t6R-9d-D7k" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="HhK-En-LPy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="t6R-9d-D7k" secondAttribute="trailing" constant="20" id="KJZ-wi-sxX"/>
+                            <constraint firstItem="ogl-B5-bqS" firstAttribute="top" secondItem="YKF-hD-H9L" secondAttribute="bottom" constant="19" id="MRL-eF-HX9"/>
                             <constraint firstItem="Rer-Zy-PTT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="bve-V7-tbm"/>
                             <constraint firstItem="UI1-3m-4BU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="cdD-ea-PzN"/>
+                            <constraint firstItem="YKF-hD-H9L" firstAttribute="top" secondItem="Rer-Zy-PTT" secondAttribute="bottom" constant="26" id="e6d-EH-Mu0"/>
+                            <constraint firstItem="ogl-B5-bqS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="55" id="gto-C4-PS4"/>
                             <constraint firstItem="VqO-VZ-qZw" firstAttribute="top" secondItem="UI1-3m-4BU" secondAttribute="bottom" constant="47" id="hQ7-B1-2wn"/>
+                            <constraint firstItem="YKF-hD-H9L" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="n4r-07-2LE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="matrixPositionLabel" destination="Rer-Zy-PTT" id="FK3-GP-Olv"/>
                         <outlet property="snakeSizeLabel" destination="VqO-VZ-qZw" id="xKq-uq-FZn"/>
+                        <outlet property="speedLabel" destination="YKF-hD-H9L" id="QEH-fm-dNk"/>
+                        <outlet property="stepper" destination="ogl-B5-bqS" id="rZ2-D7-NRH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
