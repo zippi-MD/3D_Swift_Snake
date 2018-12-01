@@ -49,8 +49,6 @@ struct Snake{
     }
     
     mutating func getCorrectDirection(oldMatrix: Matrices, newMatrix: Matrices){
-        print("----------")
-        print(direction)
         if newMatrix == .fifth{
             switch oldMatrix{
             case .second:
@@ -114,8 +112,6 @@ struct Snake{
                 return
             }
         }
-        print(direction)
-        print("--------------")
     }
     
     
