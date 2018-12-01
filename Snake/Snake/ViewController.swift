@@ -268,7 +268,7 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
             for (rowIndex, row) in matrix.enumerated(){
                 if matrices[matrixIndex][rowIndex] != oldMatrices[matrixIndex][rowIndex]{
                     let value = Int(row.compactMap(){String($0)}.joined(separator: ""), radix: 2) ?? 0
-                    valuesToUpdate.append("\(matrixIndex):\(rowIndex):\(value)\n")
+                    valuesToUpdate.append("\(matrixIndex):\(rowIndex):\(value):\(snake.body.first!.matrix.rawValue)\n")
                 }
                 
             }
