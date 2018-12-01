@@ -31,6 +31,8 @@ struct Snake{
         
         let newCoordinates = getNewCoordinates(matix: snakeHead.matrix, direction: direction, row: snakeHead.row, column: snakeHead.column)
         
+        getCorrectDirection(oldMatrix: oldCoordinate.matrix, newMatrix: newCoordinates.matrix)
+        
         newSnakeBody = [SnakeBodyPart(matrix: newCoordinates.matrix, row: newCoordinates.row, column: newCoordinates.column)]
         
         
@@ -45,6 +47,77 @@ struct Snake{
         
         body = newSnakeBody
     }
+    
+    mutating func getCorrectDirection(oldMatrix: Matrices, newMatrix: Matrices){
+        print("----------")
+        print(direction)
+        if newMatrix == .fifth{
+            switch oldMatrix{
+            case .second:
+                direction = .right
+                return
+            case .third:
+                direction = .up
+                return
+            case .fourth:
+                direction = .left
+                return
+            default:
+                return
+            }
+        }
+        
+        if newMatrix == .sixth{
+            switch oldMatrix{
+            case .second:
+                direction = .right
+                return
+            case .third:
+                direction = .down
+                return
+            case .fourth:
+                direction = .left
+                return
+            default:
+                return
+            }
+        }
+        
+        if oldMatrix == .fifth{
+            switch newMatrix{
+            case .second:
+                direction = .up
+                return
+            case .third:
+                direction = .up
+                return
+            case .fourth:
+                direction = .up
+                return
+            default:
+                return
+            }
+        }
+        
+        if oldMatrix == .sixth{
+            switch newMatrix{
+            case .second:
+                direction = .down
+                return
+            case .third:
+                direction = .down
+                return
+            case .fourth:
+                direction = .down
+                return
+            default:
+                return
+            }
+        }
+        print(direction)
+        print("--------------")
+    }
+    
     
     mutating func grow(){
         let growDirection: Directions

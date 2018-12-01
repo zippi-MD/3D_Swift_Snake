@@ -39,8 +39,7 @@ func displayMatrices(_ matrices: [[[Int]]]){
 }
 
 func getFoodCoordinate(matricesWithSnakePlaced matrices: [[[Int]]]) -> Coordinate{
-    var randomMatrixSelector = Int.random(in: 0..<matrices.count)
-    randomMatrixSelector = 0
+    let randomMatrixSelector = Int.random(in: 0..<matrices.count)
     
     var matrix = matrices[randomMatrixSelector]
     var row: Int

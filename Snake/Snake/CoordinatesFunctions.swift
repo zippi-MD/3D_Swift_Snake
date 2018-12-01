@@ -34,7 +34,7 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
             newColumn = column
         case .down:
             if (row + 1) > 7{
-                newMatrix = .third
+                newMatrix = .fifth
                 newRow = 0
             }
             else{
@@ -78,7 +78,7 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
             }
         case .down:
             if (row + 1) > 7{
-                newMatrix = .third
+                newMatrix = .fifth
                 newRow = column
                 newColumn = 0
             }
@@ -89,7 +89,7 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
             }
         case .left:
             if (column - 1) < 0{
-                newMatrix = .fifth
+                newMatrix = .third
                 newColumn = 7
             }
             else{
@@ -112,14 +112,16 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
         switch direction {
         case .up:
             if (row - 1) < 0{
-                newMatrix = .first
-                newRow = 7
+                newMatrix = .sixth
+                newRow = 0
+                newColumn = 7 - column
             }
             else{
                 newMatrix = matix
                 newRow = row - 1
+                newColumn = column
             }
-            newColumn = column
+            
         case .down:
             if (row + 1) > 7{
                 newMatrix = .fifth
@@ -132,33 +134,31 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
             newColumn = column
         case .left:
             if (column - 1) < 0{
-                newMatrix = .second
-                newRow = 7
-                newColumn = row
+                newMatrix = .fourth
+                newColumn = 7
             }
             else{
                 newMatrix = matix
                 newColumn = column - 1
-                newRow = row
             }
+            newRow = row
         case .right:
             if (column + 1) > 7{
-                newMatrix = .fourth
-                newColumn = row
-                newRow = 7
+                newMatrix = .second
+                newColumn = 0
             }
             else{
                 newMatrix = matix
                 newColumn = column + 1
-                newRow = row
             }
+            newRow = row
         }
     case .fourth:
         switch direction {
         case .up:
             if (row - 1) < 0{
                 newMatrix = .sixth
-                newRow = column
+                newRow = 7 - column
                 newColumn = 7
             }
             else{
@@ -168,7 +168,7 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
             }
         case .down:
             if (row + 1) > 7{
-                newMatrix = .third
+                newMatrix = .fifth
                 newColumn = 7
                 newRow = column
             }
@@ -189,7 +189,7 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
             newRow = row
         case .right:
             if (column + 1) > 7{
-                newMatrix = .fifth
+                newMatrix = .third
                 newColumn = 0
             }
             else{
@@ -202,8 +202,8 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
         switch direction {
         case .up:
             if (row - 1) < 0{
-                newMatrix = .sixth
-                newRow = 0
+                newMatrix = .first
+                newRow = 7
             }
             else{
                 newMatrix = matix
@@ -222,30 +222,32 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
             newColumn = column
         case .left:
             if (column - 1) < 0{
-                newMatrix = .fourth
-                newColumn = 7
+                newMatrix = .second
+                newRow = 7
+                newColumn = row
             }
             else{
                 newMatrix = matix
                 newColumn = column - 1
+                newRow = row
             }
-            newRow = row
         case .right:
             if (column + 1) > 7{
-                newMatrix = .second
-                newColumn = 0
+                newMatrix = .fourth
+                newRow = 7
+                newColumn = row
             }
             else{
                 newMatrix = matix
                 newColumn = column + 1
+                newRow = row
             }
-            newRow = row
         }
     case .sixth:
         switch direction {
         case .up:
             if (row - 1) < 0{
-                newMatrix = .fifth
+                newMatrix = .third
                 newRow = 0
                 newColumn = 7 - column
             }
@@ -279,7 +281,7 @@ func getNewCoordinates(matix: Matrices, direction: Directions, row: Int, column:
             if (column + 1) > 7{
                 newMatrix = .fourth
                 newRow = 0
-                newColumn = row
+                newColumn = 7 - row
             }
             else{
                 newMatrix = matix

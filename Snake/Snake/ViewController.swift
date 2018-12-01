@@ -56,16 +56,16 @@ class ViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDe
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!){
             [unowned self] (data, error) in
             if let gyroData = data{
-                if(gyroData.acceleration.x * 10 > 4){
+                if(gyroData.acceleration.x * 10 > 4.5){
                     self.snakeDown(self)
                 }
-                if(gyroData.acceleration.x * 10 < -4){
+                if(gyroData.acceleration.x * 10 < -4.5){
                     self.snakeUp(self)
                 }
-                if(gyroData.acceleration.y * 10 > 4){
+                if(gyroData.acceleration.y * 10 > 4.5){
                     self.snakeRight(self)
                 }
-                if(gyroData.acceleration.y * 10 < -4){
+                if(gyroData.acceleration.y * 10 < -4.5){
                     self.snakeLeft(self)
                 }
             }
