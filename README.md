@@ -14,4 +14,9 @@ as you move the snake you'll fell a vibration to let you know the movement was d
 
 On the application you can also choose the game speed, decreese it to make it more difficult!!!
 
-
+## Controller
+![](READMEAssets/Snake_Controller_Demo.gif)
+ 
+ 
+ ## Gameplay
+ ![](READMEAssets/Snake_Gameplay.gif)
